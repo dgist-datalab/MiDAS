@@ -13,16 +13,9 @@ The archive snapshot with a detailed screencast used in the paper is available a
 
 ## Trace-driven simulation
 The simulation of MiDAS is implemented by C. 
-
 You can evaluate the WAF of MiDAS with the simulator and trace files.
+The test code for simulation is here: ~~~
 
-
-### Prerequisites on software
-The software requirements for executing MiDAS simulator are as followed.
-
-~
-~
-~
 
 ## Real SSD prototype
 MiDAS is implemented on [FlashDriver](https://github.com/dgist-datalab/FlashFTLDriver), a user-space Flash Simulation Platform.
@@ -34,47 +27,64 @@ However, you can evaluate the WAF without the specific hardware using memory (RA
 The MiDAS algorithm is implemented in the directory `algorithm/MiDAS/`.
 
 
-### Prerequisites
+### Hardware Prerequisites
 The hardware/software requirements for executing MiDAS are as followed.
 
 
-#### Hardware
 * `DRAM`: Larger than device size of trace files + extra 10% of the device size for the data structures and OP region to test the trace files. For example, you need 140GB size of DRAM to run trace file with 128GB device size.
-
-
-#### Software
-~
-~
-~
 
 
 ### Installation & Compilation
 * Clone required reopsitory (MiDAS SSD prototype) into your host machine.
 ```
-$ git clone ~
-$ cd FlashFTLDriver
+$ git clone https://github.com/dgist-datalab/MiDAS.git
+$ cd MiDAS
 ```
 
-* Download the trace file to test the prototype
+
+### Trace file format
+If you want to test your own trace file, you have to set the format of the trace file like this: 
 ```
-$ ~
+[timestamp: double(s)] [OPcode: int] [LBA: uint] [iosize: int, (4096x)]
+OPcode 0 : read
+OPcode 1 : write
+OPcode 2 : (not used)
+OPcode 3 : trim
+```
+
+
+The example of the trace file is below.
+```
+0.146559796 1 0 4096 
+0.146609386 1 1 4096 
+0.146619996 1 2 4096 
+0.146626626 1 3 4096 
+0.146632166 1 4 4096 
+0.146637836 0 5 8182 
+0.146643556 0 6 8192 
+0.146648946 0 7 8192 
+0.146654316 0 8 8192 
+```
+
+
+* You can also download the trace file to test the prototype. We upload a FIO zipfian 1.0 workload with device size 8GB. Because the trace file we used in paper is too large to upload to the cloud, so we create the smaller file for the test. The device size of this trace file is 8GB, and the file size is 1.4GB. The hash value of the trace file matches the following: 2171a00ff770a7279383522cb5961b55d1976feeda79fea4607d1146e4fa1c69
+```
+$ wget https://zenodo.org/record/10409599/files/test-fio-small
+$ sha256sum test-fio-small
 ```
 
 
 ### Compile & Execution
-After downloading trace file, you can test MiDAS. This experiment may be finished in %% minutes by your server environment.
+When you want to test MiDAS, please follow the instructions below. This experiment may be finished in 650 ~ 680 seconds in our server environment.
 
-* FIO Zipfian 1.0 workload (filename: ~)
-   * You can test the same FIO-H workload in the paper. But you need larger than 135GB size of DRAM.
 
 ```
-$ make clean; make -j
-$ ./midas {trace_file}
-```
-
-* Smaller FIO Zipfian 1.0 workload (filename: ~)
-   * You need 8GB size of DRAM to test this trace file.
-```
+$ sudo apt install git
+$ sudo apt install build-essential
+$ git clone https://github.com/dgist-datalab/MiDAS.git
+$ git submodule update --init --recursive
+$ wget https://zenodo.org/record/10409599/files/test-fio-small //trace file
+$ cd MiDAS
 $ make clean; make GIGAUNIT=8L _PPS=128 -j
 $ ./midas {trace_file}
 ``` 
