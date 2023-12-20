@@ -2,9 +2,10 @@
 
 
 ## What is MiDAS?
+
 MiDAS is a Migration-based Data placement technique with Adaptive group number and Size configuration for log-structured systems. 
 
-MiDAS is implemented in both **trace-driven simulation** and a **real SSD prototype**. The simulator is used to quickly evaluate WAF of the GC techniques. Also, we used a real SSD prototype to measure I/O performance and the overheads associated with the CPU and memory for system execution.
+MiDAS is implemented in both **trace-driven simulation** and a **real SSD prototype**. The simulator is used to quickly evaluate WAF of GC techniques. The real SSD prototype is used to measure I/O performance and the overhead associated with the CPU and memory for system execution.
 
 The original paper that introduced MiDAS is currently in the revision stage of [USENIX FAST 2024](https://www.usenix.org/conference/fast24).
 
@@ -12,30 +13,35 @@ The archive snapshot with a detailed screencast used in the paper is available a
 
 
 ## Trace-driven simulation
+
 The simulation of MiDAS is implemented by C. 
 You can evaluate the WAF of MiDAS with the simulator and trace files.
 The test code for simulation is here: ~~~
 
 
 ## Real SSD prototype
+
 MiDAS is implemented on [FlashDriver](https://github.com/dgist-datalab/FlashFTLDriver), a user-space Flash Simulation Platform.
 
-To measure I/O performance and the overheads associated with the CPU, you need special hardware (Xilinx VCU108+Customized NAND Flash).
+To measure I/O performance and the overhead associated with the CPU, you need special hardware (Xilinx VCU108+Customized NAND Flash).
 
-However, you can evaluate the WAF without the specific hardware using memory (RAM drive).
+However, you can evaluate WAF without the specific hardware using memory (RAM drive).
 
 The MiDAS algorithm is implemented in the directory `algorithm/MiDAS/`.
 
 
 ### Hardware Prerequisites
-The hardware/software requirements for executing MiDAS are as followed.
+
+The hardware/software requirements for executing MiDAS are as follows.
 
 
-* `DRAM`: Larger than device size of trace files + extra 10% of the device size for the data structures and OP region to test the trace files. For example, you need 140GB size of DRAM to run trace file with 128GB device size.
+* `DRAM`: Larger than the device size of trace files + an extra 10% of the device size for the data structures and OP region to test the trace files. For example, you need 140GB size of DRAM to run the trace file with a 128GB device size.
 
 
 ### Installation & Compilation
-* Clone required reopsitory (MiDAS SSD prototype) into your host machine.
+
+* Clone the required repository (MiDAS SSD prototype) into your host machine.
+
 ```
 $ git clone https://github.com/dgist-datalab/MiDAS.git
 $ cd MiDAS
@@ -43,7 +49,9 @@ $ cd MiDAS
 
 
 ### Trace file format
+
 If you want to test your own trace file, you have to set the format of the trace file like this: 
+
 ```
 <Time Stamp (s)> <Request Type> <LBA (unit: 4KB)> <Request Size>
 
@@ -54,7 +62,8 @@ If you want to test your own trace file, you have to set the format of the trace
 ```
 
 
-The example of the trace file is below.
+The example of the trace file is as follows:
+
 ```
 0.146559796 1 0 4096 
 0.146609386 1 1 4096 
@@ -68,15 +77,19 @@ The example of the trace file is below.
 ```
 
 
-* You can also download the trace file to test the prototype. We upload a FIO zipfian 1.0 workload with device size 8GB. Because the trace file we used in paper is too large to upload to the cloud, so we create the smaller file for the test. The device size of this trace file is 8GB, and the file size is 1.4GB. The hash value of the trace file matches the following: 2171a00ff770a7279383522cb5961b55d1976feeda79fea4607d1146e4fa1c69
+* You can also download the trace file to test the prototype. We upload a FIO zipfian 1.0 workload with a device size of 8GB. Because the trace file we used in paper is too large to upload to the cloud, we created a smaller file for the test. The device size of this trace file is 8GB, and the file size is 1.4GB. The SHA256 hash value of the trace file matches the following: `2171a00ff770a7279383522cb5961b55d1976feeda79fea4607d1146e4fa1c69`
+
 ```
 $ wget https://zenodo.org/record/10409599/files/test-fio-small
 $ sha256sum test-fio-small
+2171a00ff770a7279383522cb5961b55d1976feeda79fea4607d1146e4fa1c69
 ```
 
 
 ### Compile & Execution
-When you want to test MiDAS, please follow the instructions below. This experiment may be finished in 650 ~ 680 seconds in our server environment.
+
+When you want to test MiDAS, please follow the instructions below.
+In our testing environment, the following steps finished in 650 ~ 680 seconds.
 
 
 ```
@@ -84,30 +97,33 @@ $ sudo apt install git
 $ sudo apt install build-essential
 $ git clone https://github.com/dgist-datalab/MiDAS.git
 $ git submodule update --init --recursive
-$ wget https://zenodo.org/record/10409599/files/test-fio-small //trace file
+$ wget https://zenodo.org/record/10409599/files/test-fio-small # trace file
 $ cd MiDAS
-$ make clean; make GIGAUNIT=8L _PPS=128 -j
-$ ./midas {trace_file}
+$ make clean; make GIGAUNIT=8L _PPS=128 -j # Device side = 8GB, PPS = Pages Per Segment
+$ ./midas [trace_file]
 ``` 
 
 
 ### Some statements for code structure
-MiDAS algorithm is implemented in a algorithm/MiDAS/ directory.
+
+MiDAS algorithm is implemented in the algorithm/MiDAS/ directory.
 This includes UID, MCAM, GCS algorithms.
-- `midas.c`     : adaptably change group cofiguration, and check irregular pattern
+- `midas.c`     : adaptably change group configuration, and check irregular pattern
 - `model.c`     : UID, MCAM, GCS algorithm
 - `gc.c`        : victim selection policy
 - `hot.c`       : hot group separation
 
 
 ### Results
+
 During the experiment, you can see that MiDAS adaptably change the group configuration.
 
 
-* UID information : When you run MiDAS, You can see the parameters of the UID at the beginning. 
-We sample a subset of LBA for timestamp monitoring, with a sampling rate of 0.01. 
+* UID information : Upon running MiDAS, the parameters of UID will be displayed at the beginning.
+We sample a subset of LBA for timestamp monitoring, with a sampling rate of 0.01.
 We use a coarse-grained update interval unit of 16K blocks and epoch lengths of 4x of the storage capacity (128GB).
-Following result is an example.
+
+The following result is from an example run:
 
 ```
 Storage Capacity: 128GiB  (LBA NUMBER: 31250000)
@@ -161,7 +177,7 @@ calculated Traffic: 0.570
 ```
 
 
-* MiDAS periodically check the irregular pattern of the workload. If there is a group that its valid ratio prediction is wrong, MiDAS gives up on adjusting group sizes for all groups beyond the group and simply merges the groups.
+* MiDAS periodically checks the irregular pattern of the workload. If there is a group that its valid ratio prediction is wrong, MiDAS gives up on adjusting group sizes for all groups beyond the group and simply merges the groups.
 
 ```
 ==========ERR check==========
@@ -175,7 +191,7 @@ calculated Traffic: 0.570
 ```
 
 
-* When the excution is over, You can check the total runtime, read traffic, write traffic, and WAF of the MiDAS.
+* When the execution is over, You can check the total runtime, read traffic, write traffic, and WAF of the MiDAS.
 ```
 runtime: 950 sec
 Total Read Traffic : 23531283
