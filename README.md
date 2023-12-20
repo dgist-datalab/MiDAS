@@ -93,8 +93,7 @@ In our testing environment, the following steps finished in 650 ~ 680 seconds.
 
 
 ```
-$ sudo apt install git
-$ sudo apt install build-essential
+$ sudo apt install git build-essential
 $ git clone https://github.com/dgist-datalab/MiDAS.git
 $ git submodule update --init --recursive
 $ wget https://zenodo.org/record/10409599/files/test-fio-small # trace file
