@@ -1,0 +1,6 @@
+git@github.com:chanwooc/connectal.git
+e9371fdc (zcu102-nohost-patches)
+
+Modify portal.c (noprogram=1)
+
+only cpp & drivers directory needed

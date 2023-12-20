@@ -1,0 +1,6 @@
+https://github.com/cambridgehackers/connectal.git
+49c4ebd
+portal.h fixed in case defaultPoller == NULL
+portal.c fixed (noprogram=1)
+
+only cpp & drivers directory needed

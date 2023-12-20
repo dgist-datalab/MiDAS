@@ -1,0 +1,76 @@
+*****MODEL PREDICTION RESULTS*****
+group number: 6
+*group 0: size 10, valid ratio 0.323733
+*group 1: size 81, valid ratio 0.235729
+*group 2: size 39, valid ratio 0.596465
+*group 3: size 39, valid ratio 0.494216
+*group 4: size 39, valid ratio 0.014044
+*group 5: size 813, valid ratio 0.996368
+calculated WAF: 1.554996
+************************************
+*****MODEL PREDICTION RESULTS*****
+group number: 7
+*group 0: size 10, valid ratio 0.175808
+*group 1: size 21, valid ratio 0.540112
+*group 2: size 30, valid ratio 0.651677
+*group 3: size 29, valid ratio 0.725028
+*group 4: size 30, valid ratio 0.756382
+*group 5: size 30, valid ratio 0.805934
+*group 6: size 871, valid ratio 0.927447
+calculated WAF: 1.788404
+************************************
+*****MODEL PREDICTION RESULTS*****
+group number: 7
+*group 0: size 10, valid ratio 0.175607
+*group 1: size 21, valid ratio 0.540318
+*group 2: size 29, valid ratio 0.657281
+*group 3: size 31, valid ratio 0.714598
+*group 4: size 31, valid ratio 0.755827
+*group 5: size 32, valid ratio 0.802823
+*group 6: size 867, valid ratio 0.928377
+calculated WAF: 1.788673
+************************************
+*****MODEL PREDICTION RESULTS*****
+group number: 7
+*group 0: size 10, valid ratio 0.175046
+*group 1: size 23, valid ratio 0.524091
+*group 2: size 30, valid ratio 0.657392
+*group 3: size 30, valid ratio 0.725499
+*group 4: size 31, valid ratio 0.755841
+*group 5: size 31, valid ratio 0.808987
+*group 6: size 866, valid ratio 0.929423
+calculated WAF: 1.783000
+************************************
+*****MODEL PREDICTION RESULTS*****
+group number: 7
+*group 0: size 10, valid ratio 0.175078
+*group 1: size 23, valid ratio 0.525693
+*group 2: size 32, valid ratio 0.644980
+*group 3: size 29, valid ratio 0.733663
+*group 4: size 31, valid ratio 0.758723
+*group 5: size 29, valid ratio 0.821356
+*group 6: size 867, valid ratio 0.929158
+calculated WAF: 1.786192
+************************************
+*****MODEL PREDICTION RESULTS*****
+group number: 7
+*group 0: size 10, valid ratio 0.174585
+*group 1: size 24, valid ratio 0.518810
+*group 2: size 27, valid ratio 0.678875
+*group 3: size 30, valid ratio 0.721513
+*group 4: size 32, valid ratio 0.751220
+*group 5: size 30, valid ratio 0.809564
+*group 6: size 868, valid ratio 0.928398
+calculated WAF: 1.781170
+************************************
+*****MODEL PREDICTION RESULTS*****
+group number: 7
+*group 0: size 10, valid ratio 0.174963
+*group 1: size 23, valid ratio 0.525384
+*group 2: size 29, valid ratio 0.664832
+*group 3: size 31, valid ratio 0.718939
+*group 4: size 31, valid ratio 0.756122
+*group 5: size 32, valid ratio 0.807548
+*group 6: size 865, valid ratio 0.929334
+calculated WAF: 1.784799
+************************************

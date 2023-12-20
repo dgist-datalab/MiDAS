@@ -1,0 +1,6 @@
+[submodule "algorithm/lsmftl/helper_algorithm/plr"]
+	path = algorithm/lsmftl/helper_algorithm/plr
+	url = https://github.com/dgist-datalab/plr.git
+[submodule "include/data_struct/libart"]
+	path = include/data_struct/libart
+	url = https://github.com/dgist-datalab/libart.git

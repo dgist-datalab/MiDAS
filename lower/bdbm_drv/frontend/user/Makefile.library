@@ -1,0 +1,63 @@
+# Makefile for a RISA Device Driver
+#
+
+#CC = g++
+CC = arm-linux-gnueabihf-g++
+FTL := ../../ftl
+INCLUDE := ../../include
+COMMON := ../../common
+DM_COMMON := ../../devices/common
+OUT = libftl.a
+
+CFLAGS := -Wall -g -D_LARGEFILE64_SOURCE -D_GNU_SOURCE -Wsign-compare -Wwrite-strings
+LIBS += -lm -lpthread -lrt
+
+INCLUDES = -I$(PWD)/$(INCLUDE) \
+		   -I$(PWD)/$(COMMON)/utils \
+		   -I$(PWD)/$(COMMON)/3rd \
+		   -I$(PWD)/$(FTL) \
+		   -I$(PWD)/$(DM_COMMON) \
+
+CFLAGS += -D HASH_BLOOM=20 \
+		  -D CONFIG_ENABLE_MSG \
+		  -D CONFIG_ENABLE_DEBUG \
+		  -D USER_MODE \
+		  -D USE_PMU \
+
+LIBSRC := \
+	userio.c \
+	$(FTL)/hlm_reqs_pool.c \
+	$(FTL)/ftl_params.c \
+	$(FTL)/pmu.c \
+	$(FTL)/hlm_nobuf.c \
+	$(FTL)/llm_mq.c \
+	$(FTL)/llm_noq.c \
+	$(FTL)/llm_noq_lock.c \
+	$(FTL)/algo/abm.c \
+	$(FTL)/algo/page_ftl.c \
+	$(FTL)/algo/block_ftl.c \
+	$(FTL)/queue/queue.c \
+	$(FTL)/queue/prior_queue.c \
+	$(FTL)/queue/rd_prior_queue.c \
+	$(COMMON)/utils/umemory.c \
+	$(COMMON)/utils/utime.c \
+	$(COMMON)/utils/ufile.c \
+	$(COMMON)/utils/uthread.c \
+	$(COMMON)/utils/upage.c \
+	$(COMMON)/3rd/uilog.c \
+	$(COMMON)/bdbm_main.c \
+
+LIBOBJ=$(LIBSRC:.c=.o)
+
+$(OUT): $(LIBOBJ)
+	$(AR) r $(OUT) $(LIBOBJ)
+
+.c.o:
+	$(CC) $(INCLUDES) $(LIBS) $(CFLAGS) -c $< -o $@
+
+clean:
+	@$(RM) *.o core *~ libftl 
+	@cd $(FTL); rm -rf *.o .*.cmd; rm -rf */*.o */.*.cmd;
+	@cd $(COMMON)/utils; rm -rf *.o .*.cmd; rm -rf */*.o */.*.cmd;
+	@cd $(COMMON)/3rd; rm -rf *.o .*.cmd; rm -rf */*.o */.*.cmd;
+	@cd $(COMMON); rm -rf *.o .*.cmd; rm -rf */*.o */.*.cmd;

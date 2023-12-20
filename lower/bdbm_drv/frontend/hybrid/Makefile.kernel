@@ -1,0 +1,17 @@
+# Makefile for Kernel modules
+# 
+
+obj-m := bdbm_drv.o
+
+export KROOT=/lib/modules/$(shell uname -r)/build
+
+default:
+	@$(MAKE) -C $(KROOT) M=$(PWD) modules
+
+clean:
+	@rm -rf *.o .*.cmd; rm -rf */*.o */.*.cmd Module.symvers modules.order bdbm_drv.ko bdbm_drv.mod.c
+	@cd ../kernel; rm -rf *.o .*.cmd; rm -rf */*.o */.*.cmd Module.symvers modules.order bdbm_drv.ko bdbm_drv.mod.c
+	@cd ../../ftl; rm -rf *.o .*.cmd; rm -rf */*.o */.*.cmd Module.symvers modules.order bdbm_drv.ko bdbm_drv.mod.c
+	@cd ../../common; rm -rf *.o .*.cmd; rm -rf */*.o */.*.cmd Module.symvers modules.order bdbm_drv.ko bdbm_drv.mod.c
+	@cd ../../devices/common; rm -rf *.o
+	@cd ../../devices/ramdrive; rm -rf *.o

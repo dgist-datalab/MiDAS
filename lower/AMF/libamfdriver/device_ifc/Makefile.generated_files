@@ -1,0 +1,2 @@
+
+GENERATED_CPP=GeneratedCppCallbacks.cpp MemServerRequest.c MemServerRequestJson.cpp MMURequest.c MMURequestJson.cpp MemServerIndication.c MemServerIndicationJson.cpp MMUIndication.c MMUIndicationJson.cpp AmfRequest.c AmfRequestJson.cpp AmfIndication.c AmfIndicationJson.cpp

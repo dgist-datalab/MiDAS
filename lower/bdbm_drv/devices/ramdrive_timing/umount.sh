@@ -1,0 +1,1 @@
+sudo rmmod risa_dev_ramdrive_timing
