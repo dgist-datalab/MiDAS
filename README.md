@@ -99,7 +99,7 @@ $ cd MiDAS
 $ git submodule update --init --recursive
 $ wget https://zenodo.org/record/10409599/files/test-fio-small # trace file
 $ make clean; make GIGAUNIT=8L _PPS=128 -j # Device side = 8GB, PPS = Pages Per Segment
-$ ./midas [trace_file]
+$ ./midas test-fio-small
 ``` 
 
 
