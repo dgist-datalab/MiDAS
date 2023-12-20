@@ -95,9 +95,9 @@ In our testing environment, the following steps finished in 650 ~ 680 seconds.
 ```
 $ sudo apt install git build-essential
 $ git clone https://github.com/dgist-datalab/MiDAS.git
+$ cd MiDAS
 $ git submodule update --init --recursive
 $ wget https://zenodo.org/record/10409599/files/test-fio-small # trace file
-$ cd MiDAS
 $ make clean; make GIGAUNIT=8L _PPS=128 -j # Device side = 8GB, PPS = Pages Per Segment
 $ ./midas [trace_file]
 ``` 
