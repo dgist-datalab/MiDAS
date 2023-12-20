@@ -45,11 +45,12 @@ $ cd MiDAS
 ### Trace file format
 If you want to test your own trace file, you have to set the format of the trace file like this: 
 ```
-[timestamp: double(s)] [OPcode: int] [LBA: uint] [iosize: int, (4096x)]
-OPcode 0 : read
-OPcode 1 : write
-OPcode 2 : (not used)
-OPcode 3 : trim
+<Time Stamp (s)> <Request Type> <LBA (unit: 4KB)> <Request Size>
+
+- Time Stamp (in seconds): This is the time when the request is made to a block device.
+- Request Type: This is categorized into four types: 0 for READ, 1 for WRITE, 2 for NOT USED, and 3 for TRIM.
+- LBA (Logical Block Address, unit: 4KB): This represents the logical block address on the block device, with each unit of LBA being 4KB.
+- Request Size: This indicates the size of the request being processed.
 ```
 
 
