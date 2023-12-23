@@ -9,14 +9,14 @@ MiDAS is implemented in both **trace-driven simulation** and a **real SSD protot
 
 The original paper that introduced MiDAS is currently in the revision stage of [USENIX FAST 2024](https://www.usenix.org/conference/fast24).
 
-The archive snapshot with a detailed screencast used in the paper is available at ~~link~~.
+The archive snapshot with a detailed screencast used in the paper is available at (link) (not available until Feb 27, 2024).
 
 
 ## Trace-driven simulation
 
 The simulation of MiDAS is implemented by C. 
 You can evaluate the WAF of MiDAS with the simulator and trace files.
-The test code for simulation is here: ~~~
+The test code for simulation is here: https://github.com/sungkyun123/MiDAS-Simulation
 
 
 ## Real SSD prototype
@@ -90,7 +90,7 @@ $ sha256sum test-fio-small
 
 When you want to test MiDAS, please follow the instructions below.
 In our testing environment, the following steps finished in 650 ~ 680 seconds.
-
+If you want to test MiDAS on the simulation environment for fast evaluation, go to the following link: https://github.com/sungkyun123/MiDAS-Simulation
 
 ```
 $ sudo apt install git build-essential
@@ -120,16 +120,16 @@ During the experiment, you can see that MiDAS adaptably change the group configu
 
 * UID information : Upon running MiDAS, the parameters of UID will be displayed at the beginning.
 We sample a subset of LBA for timestamp monitoring, with a sampling rate of 0.01.
-We use a coarse-grained update interval unit of 16K blocks and epoch lengths of 4x of the storage capacity (128GB).
+We use a coarse-grained update interval unit of 16K blocks and epoch lengths of 4x of the storage capacity (8GB).
 
 The following result is from an example run:
 
 ```
-Storage Capacity: 128GiB  (LBA NUMBER: 31250000)
+Storage Capacity: 8GiB  (LBA NUMBER: 1953125)
 *** Update Interval Distribution SETTINGS ***
 - LBA sampling rate: 0.01
-- UID interval unit size: 1 segments (16384 pages)
-- Epoch size: 512.00GB (2048 units)
+- UID interval unit size: 1 segments (1024 pages)
+- Epoch size: 32.00GB (2048 units)
 ```
 
 
