@@ -5,7 +5,7 @@
 
 MiDAS is a Migration-based Data placement technique with Adaptive group number and Size configuration for log-structured systems. 
 
-MiDAS is implemented in both **trace-driven simulation** and a **real SSD prototype**. The simulator is used to quickly evaluate WAF of GC techniques. The real SSD prototype is used to measure I/O performance and the overhead associated with the CPU and memory for system execution.
+MiDAS is implemented in both **trace-driven simulation** and a **real SSD prototype**. The simulator is used to evaluate the WAF of GC techniques quickly. The real SSD prototype is used to measure I/O performance and the overhead associated with the CPU and memory for system execution.
 
 The original paper that introduced MiDAS is currently in the revision stage of [USENIX FAST 2024](https://www.usenix.org/conference/fast24).
 
@@ -106,8 +106,8 @@ $ ./midas test-fio-small
 ### Some statements for code structure
 
 MiDAS algorithm is implemented in the algorithm/MiDAS/ directory.
-This includes UID, MCAM, GCS algorithms.
-- `midas.c`     : adaptably change group configuration, and check irregular pattern
+This includes UID, MCAM, and GCS algorithms.
+- `midas.c`     : adaptably change group configuration and check irregular pattern
 - `model.c`     : UID, MCAM, GCS algorithm
 - `gc.c`        : victim selection policy
 - `hot.c`       : hot group separation
@@ -115,11 +115,11 @@ This includes UID, MCAM, GCS algorithms.
 
 ### Results
 
-During the experiment, you can see that MiDAS adaptably change the group configuration.
+During the experiment, you can see that MiDAS adaptably changes the group configuration.
 
 
 * UID information : Upon running MiDAS, the parameters of UID will be displayed at the beginning.
-We sample a subset of LBA for timestamp monitoring, with a sampling rate of 0.01.
+We sample a subset of LBA for timestamp monitoring with a sampling rate of 0.01.
 We use a coarse-grained update interval unit of 16K blocks and epoch lengths of 4x of the storage capacity (8GB).
 
 The following result is from an example run:
@@ -128,7 +128,7 @@ The following result is from an example run:
 Storage Capacity: 8GiB  (LBA NUMBER: 1953125)
 *** Update Interval Distribution SETTINGS ***
 - LBA sampling rate: 0.01
-- UID interval unit size: 1 segments (1024 pages)
+- UID interval unit size: 1 segment (1024 pages)
 - Epoch size: 32.00GB (2048 units)
 ```
 
@@ -158,7 +158,7 @@ TOTAL WAF:	1.852, TMP WAF:	1.640
 ```
 
 
-* When an epoch is over, GCS algorithm finds the best group configuration using UID and MCAM. The group configuration is shown as follows.
+* When an epoch is over, the GCS algorithm finds the best group configuration using UID and MCAM. The group configuration is shown as follows.
 
 ```
 
@@ -176,7 +176,7 @@ calculated Traffic: 0.570
 ```
 
 
-* MiDAS periodically checks the irregular pattern of the workload. If there is a group that its valid ratio prediction is wrong, MiDAS gives up on adjusting group sizes for all groups beyond the group and simply merges the groups.
+* MiDAS periodically checks the irregular pattern of the workload. If there is a group whose valid ratio prediction is wrong, MiDAS gives up on adjusting group sizes for all groups beyond the group and simply merges the groups.
 
 ```
 ==========ERR check==========
